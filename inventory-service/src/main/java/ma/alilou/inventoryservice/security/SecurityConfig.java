@@ -1,5 +1,6 @@
 package ma.alilou.inventoryservice.security;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
@@ -17,8 +18,9 @@ import java.util.Arrays;
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity(prePostEnabled = true)
+@RequiredArgsConstructor
 public class SecurityConfig {
-
+    private final JwtAuthConverter jwtAuthConverter;
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity
@@ -26,8 +28,9 @@ public class SecurityConfig {
                 .cors(Customizer.withDefaults())
                 .csrf(csrf->csrf.disable())
                 .headers(httpSecurityHeadersConfigurer -> httpSecurityHeadersConfigurer.frameOptions(frameOptionsConfig -> frameOptionsConfig.disable()))
-                .authorizeHttpRequests(ar -> ar.requestMatchers("/api/**","/h2-console/**").permitAll())
+                .authorizeHttpRequests(ar -> ar.requestMatchers("/h2-console/**").permitAll())
                 .authorizeHttpRequests(ar -> ar.anyRequest().authenticated())
+                .oauth2ResourceServer(o2->o2.jwt(jwtConfigurer -> jwtConfigurer.jwtAuthenticationConverter(jwtAuthConverter)))
                 .build();
     }
 
