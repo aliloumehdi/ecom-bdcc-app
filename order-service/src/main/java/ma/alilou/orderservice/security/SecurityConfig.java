@@ -1,4 +1,4 @@
-package ma.alilou.inventoryservice.security;
+package ma.alilou.orderservice.security;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -28,9 +28,9 @@ public class SecurityConfig {
                 .cors(Customizer.withDefaults())
                 .csrf(csrf->csrf.disable())
                 .headers(httpSecurityHeadersConfigurer -> httpSecurityHeadersConfigurer.frameOptions(frameOptionsConfig -> frameOptionsConfig.disable()))
-                .authorizeHttpRequests(ar -> ar.requestMatchers("/h2-console/**","/api/products/**").permitAll())
+                .authorizeHttpRequests(ar -> ar.requestMatchers("/h2-console/**","/api/orders/**").permitAll())
                 .authorizeHttpRequests(ar -> ar.anyRequest().authenticated())
-                .oauth2ResourceServer(o2->o2.jwt(jwtConfigurer -> jwtConfigurer.jwtAuthenticationConverter(jwtAuthConverter)))
+//                .oauth2ResourceServer(o2->o2.jwt(jwtConfigurer -> jwtConfigurer.jwtAuthenticationConverter(jwtAuthConverter)))
                 .build();
     }
 

@@ -2,7 +2,6 @@ package ma.alilou.inventoryservice.controllers;
 
 import ma.alilou.inventoryservice.entities.Product;
 import ma.alilou.inventoryservice.repositories.ProductRepository;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,12 +16,12 @@ public class ProductRestController {
         this.productRepository = productRepository;
     }
     @GetMapping("/products")
-    @PreAuthorize("hasAuthority('ADMIN')")
+//    @PreAuthorize("hasAuthority('ADMIN')")
     public List<Product> productList(){
         return productRepository.findAll();
     }
     @GetMapping("/products/{id}")
-    @PreAuthorize("hasAuthority('USER')")
+//    @PreAuthorize("hasAuthority('USER')")
     public Product productById(@PathVariable String id){
         return productRepository.findById(id).get();
     }
