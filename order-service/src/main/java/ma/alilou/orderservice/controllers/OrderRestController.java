@@ -2,6 +2,7 @@ package ma.alilou.orderservice.controllers;
 
 import lombok.RequiredArgsConstructor;
 import ma.alilou.orderservice.entities.Order;
+import ma.alilou.orderservice.models.Product;
 import ma.alilou.orderservice.repositories.OrderRepository;
 import ma.alilou.orderservice.restclients.InventoryRestClient;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,7 +23,8 @@ public class OrderRestController {
         List<Order> allOrders = orderRepository.findAll();
         allOrders.forEach(o->{
             o.getProductItems().forEach(pi->{
-                pi.setProduct(inventoryRestClient.findProductById(pi.getProductId()));
+                Product product=inventoryRestClient.findProductById(pi.getProductId());
+                pi.setProduct(product);
             });
         });
         return allOrders;
@@ -30,6 +32,9 @@ public class OrderRestController {
     @GetMapping("/orders/{id}")
     public Order findOrderById(@PathVariable String id){
         Order order = orderRepository.findById(id).get();
+        order.getProductItems().forEach(pi->{
+            pi.setProduct(inventoryRestClient.findProductById(pi.getProductId()));
+        });
         return order;
     }
 }
