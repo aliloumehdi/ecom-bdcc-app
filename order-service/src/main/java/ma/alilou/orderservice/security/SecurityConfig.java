@@ -28,9 +28,9 @@ public class SecurityConfig {
                 .cors(Customizer.withDefaults())
                 .csrf(csrf->csrf.disable())
                 .headers(httpSecurityHeadersConfigurer -> httpSecurityHeadersConfigurer.frameOptions(frameOptionsConfig -> frameOptionsConfig.disable()))
-                .authorizeHttpRequests(ar -> ar.requestMatchers("/h2-console/**","/api/orders/**").permitAll())
+                .authorizeHttpRequests(ar -> ar.requestMatchers("/h2-console/**","/swagger-ui.html","/swagger-ui/**","/v3/**").permitAll())
                 .authorizeHttpRequests(ar -> ar.anyRequest().authenticated())
-//                .oauth2ResourceServer(o2->o2.jwt(jwtConfigurer -> jwtConfigurer.jwtAuthenticationConverter(jwtAuthConverter)))
+                .oauth2ResourceServer(o2->o2.jwt(jwtConfigurer -> jwtConfigurer.jwtAuthenticationConverter(jwtAuthConverter)))
                 .build();
     }
 
